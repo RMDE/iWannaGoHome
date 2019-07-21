@@ -49,7 +49,7 @@ class User(Base):
         if check_password_hash(user._password, password):
             return {
                 'email': user.email,
-                'scope': user.scope.name
+                'scope': user.scope.name  # user.scope得到的是一个{name,value}，对应枚举类中的设定
             }
         else:
             raise AuthFailed()

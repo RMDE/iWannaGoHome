@@ -10,12 +10,8 @@ class Redprint:
 
     def route(self, rule, **options):
         def decorator(f):
-            @functools.wraps(f)
-            def wrapper(*args, **kwargs):
-                self.mound.append((f, rule, options))
-                return f(*args, **kwargs)
-
-            return wrapper
+            self.mound.append((f, rule, options))
+            return f
 
         return decorator
 

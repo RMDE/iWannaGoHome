@@ -34,7 +34,7 @@ def register():
 def promote_privilege():
     form = PromotePrivilegeForm().execute_validate()
     user = User.query.filter_by(email=form['email']).first_or_404()
-    current_level = Ring[user.scope].value  # 转换成整形
+    current_level = Ring[user.scope.name].value  # 转换成整形
     update_level = current_level - int(form['promotion'])  # 因为数值小的权限大，所以是减
     # 检查Ring枚举类里是否存在值为update_level的成员
     try:
