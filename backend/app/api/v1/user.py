@@ -29,7 +29,7 @@ def register():
 
 # 提升用户权限
 def promote_privilege():
-    form = PromotePrivilegeForm().validate()
+    form = PromotePrivilegeForm().execute_validate()
     user = User.query.filter_by(email=form['email']).first_or_404()
     current_level = Ring[user.scope].value  # 转换成整形
     update_level = current_level + form['promotion']

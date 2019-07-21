@@ -2,6 +2,8 @@
 .vscode/
 test/
 
+app/config/secure.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
