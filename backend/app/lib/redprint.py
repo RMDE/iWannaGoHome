@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import functools
 
 
 class Redprint:
@@ -9,8 +10,12 @@ class Redprint:
 
     def route(self, rule, **options):
         def decorator(f):
-            self.mound.append((f, rule, options))
-            return f
+            @functools.wraps(f)
+            def wrapper(*args, **kwargs):
+                self.mound.append((f, rule, options))
+                return f(*args, **kwargs)
+
+            return wrapper
 
         return decorator
 

@@ -4,7 +4,7 @@ from app.lib.exception import APIException
 
 class Success(APIException):
     code = 200
-    msg = 'ok'
+    msg = 'ok 😆'
 
 
 class DeleteSuccess(Success):

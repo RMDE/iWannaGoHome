@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from cymysql import IntegrityError
 from sqlalchemy import Column, Integer, String, Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.lib.error_code import AuthFailed
+from app.lib.error_code import AuthFailed, DatabaseExistError
 from app.lib.permission import Ring
 from .base import Base, db
 
@@ -14,7 +15,7 @@ class User(Base):
     _password = Column('password', String(128))
     # 权限范围，使用普通的枚举类Ring，会自动把成员转为字典再取Key作为数据库中存在形式
     # 默认值无效，搞不懂
-    scope = Column(Enum(Ring), default='Guest')
+    scope = Column(Enum(Ring), default=Ring.Guest)
 
     @property
     def password(self):
@@ -37,15 +38,18 @@ class User(Base):
         except IndentationError as e:
             print(e)
             return False
+        except IntegrityError as e:
+            print(e)
+            raise DatabaseExistError()
         return True
 
     @staticmethod
     def verify(email, password):
-        user = User.query.filter_by(email=email).first_or_404(msg_404='user not found')
+        user = User.query.filter_by(email=email).first_or_404(msg_404='用户不存在 🙄')
         if check_password_hash(user._password, password):
             return {
                 'email': user.email,
-                'scope': user.scope
+                'scope': user.scope.name
             }
         else:
             raise AuthFailed()

@@ -29,5 +29,5 @@ def generator_token(user_info, expiration=3600):
     s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'], expires_in=expiration)
     return s.dumps({
         'email': user_info['email'],
-        'scope': user_info['scope']
+        'scope': user_info['scope'].name  # user_info['scope']得到的是一个{name,value}，对应枚举类中的设定
     })
