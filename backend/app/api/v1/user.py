@@ -21,6 +21,15 @@ def register():
         return DatabaseError()
 
 
+# 禁用用户
+@api.route('/<string:email>', methods=['DELETE'])
+@auth.login_required
+@Permission.require(Ring.Administrator)
+def ban_user(email):
+    User.delete('email', email)
+    return Success()
+
+
 # 提升用户权限
 @api.route('/promote', methods=['POST'])
 @auth.login_required

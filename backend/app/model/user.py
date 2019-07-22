@@ -47,5 +47,3 @@ class User(Base):
             }
         else:
             raise AuthFailed()
-
-    pass

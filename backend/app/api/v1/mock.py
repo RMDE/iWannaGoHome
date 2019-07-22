@@ -17,6 +17,7 @@ def get_mock(id):
     return Response(mock_json, mimetype='application/json')
 
 
+# 创建mock
 @api.route('', methods=['POST'])
 @auth.login_required
 @Permission.require(Ring.Member)
@@ -27,3 +28,12 @@ def create_mock():
         return Success()
     else:
         return DatabaseError()
+
+
+# 软删除mock
+@api.route('/<int:id>', methods=['DELETE'])
+@auth.login_required
+@Permission.require(Ring.Member)
+def delete_mock(id):
+    Mock.delete('id', id)
+    return Success()

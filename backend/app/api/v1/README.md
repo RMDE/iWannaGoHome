@@ -1,10 +1,15 @@
-### token.py
+# Api
+[TOC]
+
+
+
+## token
 
 用户登录时获取token，token是用户邮箱email和权限范围scope组成的字典加密后的结果
 
 此token用与在执行敏感操作时判别用户权限
 
-##### 请求：
+ 请求：
 
 ```
 POST /v1/token
@@ -14,9 +19,9 @@ Content-Disposition: form-data; name="email"
 Content-Disposition: form-data; name="password"
 ```
 
-##### 返回：
+返回：
 
-当邮箱和密码都正确时返回toekn
+> 当邮箱和密码都正确时返回toekn
 
 ```json
 status code = 200 
@@ -26,7 +31,7 @@ status code = 200
 }
 ```
 
-当密码错误时返回
+>  当密码错误时返回
 
 ```json
 status code = 401
@@ -36,7 +41,7 @@ status code = 401
 }
 ```
 
-当用户不存在
+> 当用户不存在
 
 ```json
 status code = 404
@@ -46,15 +51,15 @@ status code = 404
 }
 ```
 
-信息缺失时略
+> 信息缺失时略
 
-### user.py
+## user
 
 注册用户、提升用户级别权限
 
-#### 注册用户
+### 注册用户
 
-##### 请求：
+请求：
 
 密码长度应为8-32或密码包含不可用字符
 
@@ -64,9 +69,9 @@ Content-Disposition: form-data; name="email"
 Content-Disposition: form-data; name="password"
 ```
 
-##### 返回
+返回
 
-当注册成功时
+> 当注册成功时
 
 ```json
 status code = 200
@@ -76,7 +81,7 @@ status code = 200
 }
 ```
 
-当请求数据不合要求
+> 当请求数据不合要求
 
 ```json
 status code = 400
@@ -90,7 +95,7 @@ status code = 400
 }
 ```
 
-当邮注册用户箱重复时
+> 当邮注册用户箱重复时
 
 ```json
 status code = 500
@@ -100,20 +105,22 @@ status code = 500
 }
 ```
 
-#### 提升用户权限
+### 提升用户权限
 
-##### 请求
-只有管理员才能更改用户权限
+请求
 
-promotion 是权限级别提升数量，权限级别有 [permission.py](../../lib/permission.py)
+> 只有管理员才能更改用户权限
+>
+> promotion 是权限级别提升数量，权限级别看 [permission.py](../../lib/permission.py)
 
 ```
 POST /v1/user/promote
 Content-Disposition: form-data; name="email"
 Content-Disposition: form-data; name="promotion"
 ```
-##### 返回
-当请求成功时
+返回
+
+> 当请求成功时
 
 ```json
 status code = 200
@@ -123,7 +130,7 @@ status code = 200
 }
 ```
 
-当非管理员请求这一操作时
+> 当非管理员请求这一操作时
 
 ```json
 status code = 403
@@ -133,7 +140,7 @@ status code = 403
 }
 ```
 
-当promotion参数不合法时
+> 当promotion参数不合法时
 
 ```json
 status code = 400
