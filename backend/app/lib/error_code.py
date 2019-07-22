@@ -16,6 +16,10 @@ class ServerError(APIException):
     msg = 'sorry, we made a mistake 😁'
 
 
+class DatabaseError(ServerError):
+    msg = 'sorry, problems with database, this may happen when you insert conflicted or invalid data 😷'
+
+
 class ParameterException(APIException):
     code = 400
     msg = 'invalid parameter 😒'
@@ -27,7 +31,7 @@ class NotFound(APIException):
 
 
 class DatabaseExistError(APIException):
-    code = 400
+    code = 500
     msg = 'same data exists 🤔'
 
 

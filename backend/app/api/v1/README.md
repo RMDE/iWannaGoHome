@@ -95,7 +95,7 @@ status code = 400
 ```json
 status code = 500
 {
-    "msg": "sorry, we made a mistake 😁",
+    "msg": "sorry, problems with database, this may happen when you insert conflicted or invalid data 😷",
     "request": "POST /v1/user"
 }
 ```
@@ -116,6 +116,7 @@ Content-Disposition: form-data; name="promotion"
 当请求成功时
 
 ```json
+status code = 200
 {
     "msg": "ok 😆",
     "request": "POST /v1/user/promote"

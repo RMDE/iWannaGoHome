@@ -23,3 +23,9 @@ class PromotePrivilegeForm(BaseForm):
     email = StringField(validators=[DataRequired(message='邮箱不能为空')])
     # 用户权限提升等级数，负数就是降级
     promotion = StringField(validators=[DataRequired(message='权限提升等级数不能为空')])
+
+
+class CreateMockForm(BaseForm):
+    email = StringField(validators=[DataRequired(message='邮箱不能为空')])
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+    json = StringField(validators=[DataRequired(message='Json文本不能为空')])

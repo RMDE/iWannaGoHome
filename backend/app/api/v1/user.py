@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from app.lib.auth import auth
-from app.lib.error_code import Success, DatabaseExistError, ParameterException
+from app.lib.error_code import Success, ParameterException, DatabaseError
 from app.lib.permission import Permission, Ring
 from app.lib.redprint import Redprint
 from app.model.user import User
@@ -8,12 +8,6 @@ from app.validator.form import UserRegisterForm, PromotePrivilegeForm
 from app.lib.orm import db
 
 api = Redprint("user")
-
-
-@api.route('', methods=['GET'])
-@auth.login_required
-def test():
-    return 'hello'
 
 
 # 注册用户
@@ -24,7 +18,7 @@ def register():
     if result:
         return Success()
     else:
-        return DatabaseExistError()
+        return DatabaseError()
 
 
 # 提升用户权限
