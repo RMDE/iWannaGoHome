@@ -7,6 +7,7 @@ from app.model.mock import Mock
 class UserSchema(ma.ModelSchema):
     class Meta:
         model = User
+        # 序列化时去掉字段
         exclude = ['deleted', 'password']
 
 

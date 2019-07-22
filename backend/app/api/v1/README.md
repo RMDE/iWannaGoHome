@@ -1,4 +1,9 @@
 # Api
+
+都是直接通过Http Status Code来反馈API请求结果状况
+
+使用Http Basic Auth 作为用户身份认证，某些接口需要携带token访问
+
 [TOC]
 
 
@@ -21,7 +26,8 @@ Content-Disposition: form-data; name="password"
 
 返回：
 
-> 当邮箱和密码都正确时返回toekn
+<details>
+<summary>当邮箱和密码都正确时返回toekn</summary>
 
 ```json
 status code = 200 
@@ -30,8 +36,10 @@ status code = 200
     "token": "eyJ......"
 }
 ```
+</details>
 
->  当密码错误时返回
+<details>
+<summary>当密码错误时返回</summary>
 
 ```json
 status code = 401
@@ -40,8 +48,10 @@ status code = 401
     "request": "POST /v1/token"
 }
 ```
+</details>
 
-> 当用户不存在
+<details>
+<summary>当用户不存在</summary>
 
 ```json
 status code = 404
@@ -50,8 +60,11 @@ status code = 404
     "request": "POST /v1/token"
 }
 ```
+</details>
 
-> 信息缺失时略
+<details>
+<summary>信息确实时略</summary>
+</details>
 
 ## user
 
@@ -71,7 +84,8 @@ Content-Disposition: form-data; name="password"
 
 返回
 
-> 当注册成功时
+<details>
+<summary>当注册成功时</summary>
 
 ```json
 status code = 200
@@ -80,8 +94,11 @@ status code = 200
     "request": "POST /v1/user"
 }
 ```
+</details>
 
-> 当请求数据不合要求
+
+<details>
+<summary>当请求数据不合要求</summary>
 
 ```json
 status code = 400
@@ -94,8 +111,11 @@ status code = 400
     "request": "POST /v1/user"
 }
 ```
+</details>
 
-> 当邮注册用户箱重复时
+
+<details>
+<summary>当邮注册用户箱重复时</summary>
 
 ```json
 status code = 500
@@ -104,6 +124,8 @@ status code = 500
     "request": "POST /v1/user"
 }
 ```
+</details>
+
 
 ### 提升用户权限
 
@@ -112,6 +134,8 @@ status code = 500
 > 只有管理员才能更改用户权限
 >
 > promotion 是权限级别提升数量，权限级别看 [permission.py](../../lib/permission.py)
+>
+> 请求时需要携带token
 
 ```
 POST /v1/user/promote
@@ -120,7 +144,8 @@ Content-Disposition: form-data; name="promotion"
 ```
 返回
 
-> 当请求成功时
+<details>
+<summary>当请求成功时</summary>
 
 ```json
 status code = 200
@@ -129,8 +154,12 @@ status code = 200
     "request": "POST /v1/user/promote"
 }
 ```
+</details>
 
-> 当非管理员请求这一操作时
+
+
+<details>
+<summary>当非管理员请求这一操作时</summary>
 
 ```json
 status code = 403
@@ -139,8 +168,12 @@ status code = 403
     "request": "POST /v1/user/promote"
 }
 ```
+</details>
+ 
 
-> 当promotion参数不合法时
+
+<details>
+<summary>当promotion参数不合法时</summary>
 
 ```json
 status code = 400
@@ -149,6 +182,98 @@ status code = 400
     "request": "POST /v1/user/promote"
 }
 ```
+</details>
 
 
+### 禁用用户
 
+请求
+
+> 需要参数email
+> 需要携带token
+
+```
+DELETE /v1/user/email
+```
+
+## mock
+
+mock 实质上就是接受一个json，保存到数据库中，然后按照特定的链接能返回之前定义的json
+
+### 创建一个mock
+
+请求
+> email 为创建者邮箱
+>
+> name 为这个mock起一个名字
+>
+> json 就是一段json文本
+>
+> 请求时需要携带token
+
+
+```
+POST /v1/mock
+Content-Disposition: form-data; name="email"
+Content-Disposition: form-data; name="name"
+Content-Disposition: form-data; name="json"
+```
+返回
+
+### 获取mock列表
+
+请求
+> 列出所有mock的id、name、创建时间、修改时间
+
+```
+GET /v1/mock/all
+```
+
+返回
+
+<details>
+<summary>当操作成功时</summary>
+
+```json
+status code = 200
+[
+    {
+        "create_time": "2019-07-22T12:31:11+00:00",
+        "id": 1,
+        "name": "test",
+        "update_time": "2019-07-22T12:31:11+00:00",
+        "user": 1
+    },
+    {
+        "create_time": "2019-07-22T12:37:12+00:00",
+        "id": 2,
+        "name": "test again",
+        "update_time": "2019-07-22T12:37:12+00:00",
+        "user": 1
+    }
+]
+```
+</details>
+
+### 删除一个mock
+
+请求
+> 传入需要删除的mock的id
+>
+> 请求时需要携带token
+```
+DELETE /v1/mock/id
+```
+返回
+
+<details>
+<summary>当操作成功时</summary>
+
+```json
+status code = 200
+{
+    "msg": "ok 😆",
+    "request": "DELETE /v1/mock/1"
+}
+```
+</details>

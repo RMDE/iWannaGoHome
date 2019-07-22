@@ -19,11 +19,11 @@ def get_mock(id):
     return Response(mock_json, mimetype='application/json')
 
 
-# 获取所有mock
+# 获取所有mock的id,name等信息
 @api.route('/all', methods=['GET'])
 def get_all_mock():
     all = Mock.fetch_all()
-    mock_schema = MockSchema()
+    mock_schema = MockSchema(exclude=['json'])  # 排除json字段
     return jsonify([mock_schema.dump(mock).data for mock in all])
 
 
