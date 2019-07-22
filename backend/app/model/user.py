@@ -13,8 +13,10 @@ class User(Base):
     nickname = Column(String(32), unique=True)
     _password = Column('password', String(128))
     # 权限范围，使用普通的枚举类Ring，会自动把成员转为字典再取Key作为数据库中存在形式
-    # 默认值无效，搞不懂
-    scope = Column(Enum(Ring), default='Guest')
+    scope = Column(Enum(Ring), default=Ring.Guest)
+
+    # 用户创建的mock，一对多数据关系
+    mocks = db.relationship('Mock', backref='user', lazy='dynamic')
 
     @property
     def password(self):
@@ -28,11 +30,7 @@ class User(Base):
     def register_by_email(email, password):
         try:
             with db.auto_commit():
-                user = User()
-                user.email = email
-                user.password = password
-                # 因为默认值无效，所以在注册这里初始化为Guest
-                user.scope = 'Guest'
+                user = User(email=email, password=password)
                 db.session.add(user)
         except IndentationError as e:
             print(e)
@@ -41,13 +39,11 @@ class User(Base):
 
     @staticmethod
     def verify(email, password):
-        user = User.query.filter_by(email=email).first_or_404(msg_404='user not found')
+        user = User.query.filter_by(email=email).first_or_404(msg_404='用户不存在 🙄')
         if check_password_hash(user._password, password):
             return {
                 'email': user.email,
-                'scope': user.scope
+                'scope': user.scope.name  # user.scope得到的是一个{name,value}，对应枚举类中的设定
             }
         else:
             raise AuthFailed()
-
-    pass

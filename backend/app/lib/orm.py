@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from app.lib.error_code import NotFound, ServerError
+from app.lib.error_code import NotFound, DatabaseError
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
 from contextlib import contextmanager
 from flask_marshmallow import Marshmallow
@@ -15,7 +15,7 @@ class SQLAlchemy(_SQLAlchemy):
             db.session.rollback()
             # raise e
             print(e)
-            raise ServerError()
+            raise DatabaseError()
 
 
 class Query(BaseQuery):

@@ -5,8 +5,8 @@ from app.validator.base import BaseForm
 
 
 class UserLoginForm(BaseForm):
-    email = StringField(validators=[DataRequired()])
-    password = StringField(validators=[DataRequired()])
+    email = StringField(validators=[DataRequired(message='邮箱不能为空')])
+    password = StringField(validators=[DataRequired(message='密码不能为空')])
 
 
 class UserRegisterForm(BaseForm):
@@ -22,5 +22,10 @@ class UserRegisterForm(BaseForm):
 class PromotePrivilegeForm(BaseForm):
     email = StringField(validators=[DataRequired(message='邮箱不能为空')])
     # 用户权限提升等级数，负数就是降级
-    promotion = IntegerField(
-        validators=[DataRequired(message='权限提升等级数不能为空'), NumberRange(-1, 1, message='权限提升等级数不合要求')])
+    promotion = StringField(validators=[DataRequired(message='权限提升等级数不能为空')])
+
+
+class CreateMockForm(BaseForm):
+    email = StringField(validators=[DataRequired(message='邮箱不能为空')])
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+    json = StringField(validators=[DataRequired(message='Json文本不能为空')])

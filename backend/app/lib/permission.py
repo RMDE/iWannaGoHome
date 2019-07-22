@@ -3,10 +3,10 @@ import functools
 from enum import Enum, unique
 from flask import g
 
-# 权限级别Ring环，仿CPU Ring
 from app.lib.error_code import Forbidden, CodeError
 
 
+# 权限级别Ring环，仿CPU Ring
 @unique
 class Ring(Enum):
     Administrator = 0

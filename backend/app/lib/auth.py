@@ -7,7 +7,7 @@ from app.lib.error_code import AuthFailed
 
 auth = HTTPBasicAuth()
 
-UserTuple = namedtuple('User', ['uid', 'scope'])
+UserTuple = namedtuple('User', ['email', 'scope'])
 
 
 # auth装饰器，执行此函数进行token验证

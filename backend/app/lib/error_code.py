@@ -4,7 +4,7 @@ from app.lib.exception import APIException
 
 class Success(APIException):
     code = 200
-    msg = 'ok'
+    msg = 'ok 😆'
 
 
 class DeleteSuccess(Success):
@@ -14,6 +14,10 @@ class DeleteSuccess(Success):
 class ServerError(APIException):
     code = 500
     msg = 'sorry, we made a mistake 😁'
+
+
+class DatabaseError(ServerError):
+    msg = 'sorry, problems with database, this may happen when you insert conflicted or invalid data 😷'
 
 
 class ParameterException(APIException):
@@ -27,7 +31,7 @@ class NotFound(APIException):
 
 
 class DatabaseExistError(APIException):
-    code = 400
+    code = 500
     msg = 'same data exists 🤔'
 
 
