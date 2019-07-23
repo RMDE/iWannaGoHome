@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask
+from flask_cors import CORS
+
 from app.api.v1 import create_bp_v1
 
 
@@ -29,6 +31,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.setting')
     app.config.from_object('app.config.secure')
+    # 跨域资源访问配置
+    CORS(app, resources={r"/v1/*": {"origins": "*"}})
     register_blueprints(app)
     register_db(app)
     register_serializer(app)
