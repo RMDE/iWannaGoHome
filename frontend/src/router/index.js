@@ -12,6 +12,11 @@ const router = new Router({
 })
 
 // 显示页面加载进度条
+router.beforeEach((to, from, next) => {
+  heyUI.$LoadingBar.start()
+  next()
+})
+
 router.afterEach(() => {
   heyUI.$LoadingBar.success()
 })
