@@ -27,7 +27,7 @@ Content-Disposition: form-data; name="password"
 返回：
 
 <details>
-<summary>当邮箱和密码都正确时返回toekn</summary>
+<summary>当邮箱和密码都正确时返回token</summary>
 
 ```json
 status code = 200 
