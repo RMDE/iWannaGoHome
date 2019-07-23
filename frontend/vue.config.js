@@ -49,6 +49,7 @@ module.exports = {
     // 配置别名
     config.resolve.alias
       .set('@', resolve('src'))
+      .set('@api', resolve('src/api'))
       .set('@style', resolve('src/assets/style'))
     // 生产环境配置
     if (isProduction) {

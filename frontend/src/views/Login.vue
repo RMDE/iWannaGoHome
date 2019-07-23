@@ -1,10 +1,17 @@
 <template>
-    <div></div>
+  <div>
+    <LoginPanel></LoginPanel>
+  </div>
 </template>
 
 <script>
+  import LoginPanel from '../components/LoginPanel'
+
   export default {
-    name: 'Login'
+    name: 'Login',
+    components: {
+      LoginPanel
+    }
   }
 </script>
 
