@@ -64,9 +64,9 @@
         if (update === 1) {
           this.$Notice['success']('登录成功')
           this.$LoadingBar.success()
-          // setTimeout(() => {
-          //   this.$router.push({ name: 'consoleIndex' })
-          // }, 1000)
+          setTimeout(() => {
+            this.$router.push({ name: 'consoleSystem' })
+          }, 1000)
         } else if (update === -1) {
           this.$Notice['error']('邮箱或密码错误')
           this.$LoadingBar.fail()

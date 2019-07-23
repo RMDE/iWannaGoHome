@@ -32,6 +32,7 @@ body {
 
 a, p, h1, h2, h3, h4, h5, h6 {
   color: @text-color;
+  font-weight: normal;
 }
 
 ::selection {
@@ -55,4 +56,35 @@ a, p, h1, h2, h3, h4, h5, h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: @a-hover-color;
+}
+
+.console-title {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+
+  h3 {
+    display: inline-block;
+    font-size: 1.2em;
+  }
+
+  i {
+    margin: 0 4px;
+    font-size: 1.6em;
+  }
+
+  @media screen and (max-width: 425px) {
+    h3 {
+      font-size: 1rem;
+    }
+
+    i {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin: 12px;
 }

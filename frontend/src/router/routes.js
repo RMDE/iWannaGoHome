@@ -13,7 +13,38 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/views/Login.vue')
+    component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue')
+  },
+  {
+    path: '/console',
+    name: 'console',
+    component: () => import(/* webpackChunkName: "console" */'@/views/Console.vue'),
+    children: [
+      {
+        path: 'system',
+        meta: { needLogin: true },
+        name: 'consoleSystem',
+        component: () => import(/* webpackChunkName: "console.system" */'../components/console/System.vue')
+      },
+      {
+        path: 'project',
+        meta: { needLogin: true },
+        name: 'consoleProject',
+        component: () => import(/* webpackChunkName: "console.project" */'../components/console/Project.vue')
+      },
+      {
+        path: 'mock',
+        meta: { needLogin: true },
+        name: 'consoleMock',
+        component: () => import(/* webpackChunkName: "console.mock" */'../components/console/Mock.vue')
+      },
+      {
+        path: 'user',
+        meta: { needLogin: true },
+        name: 'consoleUser',
+        component: () => import(/* webpackChunkName: "console.user" */'../components/console/User.vue')
+      }
+    ]
   }
 ]
 
