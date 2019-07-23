@@ -47,6 +47,8 @@
           // 信息输入正确，请求接口
           this.$Loading()
           this.$LoadingBar.start()
+          // 重置登录状态
+          this.$store.commit('user/setStatus', 0)
           this.$store.dispatch('user/login', { email: this.email, password: this.password })
         }
       }
@@ -60,13 +62,13 @@
       // 监控登录状态
       status (update) {
         if (update === 1) {
-          this.$Message({ type: 'success', text: '登录成功' })
+          this.$Notice['success']('登录成功')
           this.$LoadingBar.success()
           // setTimeout(() => {
           //   this.$router.push({ name: 'consoleIndex' })
           // }, 1000)
         } else if (update === -1) {
-          this.$Message({ type: 'error', text: '邮箱或密码错误' })
+          this.$Notice['error']('邮箱或密码错误')
           this.$LoadingBar.fail()
         }
         this.$Loading.close()

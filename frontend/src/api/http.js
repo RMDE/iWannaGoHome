@@ -44,7 +44,7 @@ instance.interceptors.response.use(
       // 直接显示API返回的错误信息
       Vue.prototype.$Notice['error'](err.response.data['msg'])
     }
-    return Promise.resolve(err)
+    return Promise.reject(err)
   }
 )
 export default instance
