@@ -24,7 +24,12 @@ def get_mock(id):
 def get_all_mock():
     all = Mock.fetch_all()
     mock_schema = MockSchema(exclude=['json'])  # 排除json字段
-    return jsonify([mock_schema.dump(mock).data for mock in all])
+    mock_dicts = []
+    for mock in all:
+        data = mock_schema.dump(mock).data
+        data['user'] = mock.user.email
+        mock_dicts.append(data)
+    return jsonify(mock_dicts)
 
 
 # 创建mock
