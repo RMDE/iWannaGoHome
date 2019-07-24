@@ -6,12 +6,14 @@ from app.lib.error_code import DatabaseError, Success
 from app.lib.permission import Permission, Ring
 from app.lib.redprint import Redprint
 from app.model.mock import Mock
+from app.model.project import Project
 from app.schema.schema import MockSchema
 from app.validator.form import CreateMockForm
 
 api = Redprint('mock')
 
 
+# 获取单个mock的信息
 @api.route('/<int:id>', methods=['GET'])
 def get_mock(id):
     mock = Mock.fetch_mock(mock_id=id)
@@ -19,6 +21,14 @@ def get_mock(id):
     data = mock_schema.dump(mock).data
     data['user'] = mock.user.email
     data['project'] = mock.project.name
+    # 所有项目
+    projects = Project.fetch_all()
+    project_list = []
+    for project in projects:
+        project_list.append(project.name)
+
+    data['projects'] = project_list
+
     return jsonify(data)
 
 
