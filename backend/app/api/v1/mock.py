@@ -12,9 +12,18 @@ from app.validator.form import CreateMockForm
 api = Redprint('mock')
 
 
-# 获取单个Mock的json
 @api.route('/<int:id>', methods=['GET'])
 def get_mock(id):
+    mock = Mock.fetch_mock(mock_id=id)
+    mock_schema = MockSchema()
+    data = mock_schema.dump(mock).data
+    data['user'] = mock.user.email
+    return jsonify(data)
+
+
+# 获取单个Mock的json
+@api.route('/<int:id>/json', methods=['GET'])
+def get_mock_json(id):
     mock_json = Mock.fetch_json(mock_id=id)
     return Response(mock_json, mimetype='application/json')
 
@@ -38,7 +47,7 @@ def get_all_mock():
 @Permission.require(Ring.Member)
 def create_mock():
     form = CreateMockForm().execute_validate()
-    result = Mock.insert(form['name'], form['email'], form['json'])
+    result = Mock.insert(form)
     if result:
         return Success()
     else:

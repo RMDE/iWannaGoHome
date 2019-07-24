@@ -29,3 +29,11 @@ class CreateMockForm(BaseForm):
     email = StringField(validators=[DataRequired(message='邮箱不能为空')])
     name = StringField(validators=[DataRequired(message='名称不能为空')])
     json = StringField(validators=[DataRequired(message='Json文本不能为空')])
+    project = StringField(default=None)
+    form = StringField(default=None)
+    desc = StringField(default=None)
+
+
+class CreateProjectForm(BaseForm):
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+    desc = StringField(validators=[DataRequired(message='描述不能为空')])

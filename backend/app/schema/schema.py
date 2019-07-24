@@ -2,6 +2,7 @@
 from app.lib.orm import ma
 from app.model.user import User
 from app.model.mock import Mock
+from app.model.project import Project
 
 
 class UserSchema(ma.ModelSchema):
@@ -14,4 +15,10 @@ class UserSchema(ma.ModelSchema):
 class MockSchema(ma.ModelSchema):
     class Meta:
         model = Mock
+        exclude = ['deleted']
+
+
+class ProjectSchema(ma.ModelSchema):
+    class Meta:
+        model = Project
         exclude = ['deleted']
