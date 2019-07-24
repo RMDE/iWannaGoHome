@@ -12,9 +12,13 @@
         <template v-slot:label><i class="iconfont icon-category"></i>所属项目</template>
         <Select v-model="project" :datas="projects" :multiple="false"></Select>
       </FormItem>
-      <FormItem prop="mode">
+      <FormItem prop="form">
         <template v-slot:label><i class="iconfont icon-data"></i>图表类型</template>
-        <Select v-model="mode" :datas="modes" :multiple="false"></Select>
+        <Select v-model="form" :datas="forms" :multiple="false"></Select>
+      </FormItem>
+      <FormItem :single="true" prop="textareaData">
+        <template v-slot:label><i class="iconfont icon-post"></i>描述</template>
+        <textarea rows="3" v-autosize v-wordcount="1024" v-model="desc"></textarea>
       </FormItem>
     </Form>
     <vue-json-editor v-model="json"
@@ -38,7 +42,7 @@
 
 <script>
   import vueJsonEditor from 'vue-json-editor'
-  // import MockApi from '../../../api/mock'
+  import MockApi from '../../../api/mock'
 
   export default {
     name: 'MockEditor',
@@ -51,11 +55,28 @@
         name: null,
         project: null,
         json: null,
+        desc: null,
         // 项目列表
         projects: [],
-        mode: null,
+        form: null,
         // 图标类型列表
-        modes: []
+        forms: ['折线图',
+                '柱状图',
+                '条形图',
+                '饼图',
+                '环图',
+                '瀑布图',
+                '漏斗图',
+                '雷达图',
+                '地图',
+                '桑基图',
+                '热力图',
+                '散点图',
+                'K线图',
+                '仪表盘',
+                '树图',
+                '水球图',
+                '词云图']
       }
     },
     created () {
@@ -63,11 +84,23 @@
     },
     mounted () {
       if (this.mockId !== null) {
-        // MockApi.fetchMock(this.mockId).then((res) => {
-        //
-        // }).catch((err)=>{
-        //
-        // })
+        this.$Loading()
+        MockApi.fetchMock(this.mockId).then((res) => {
+          // 解构赋值
+          let jsonRaw
+          ({
+            name: this.name,
+            json: jsonRaw,
+            project: this.project,
+            form: this.form,
+            projects: this.projects
+          } = res.data)
+          this.json = JSON.parse(jsonRaw)
+        }).catch(() => {
+          this.$Notice['error']('数据加载错误')
+        }).finally(() => {
+          this.$Loading.close()
+        })
       }
     },
     methods: {
@@ -95,7 +128,7 @@
   }
 
   /deep/ .jsoneditor-vue {
-    height: 512px;
+    height: 480px;
     margin: 0 0 0 24px;
   }
 

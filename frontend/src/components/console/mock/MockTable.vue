@@ -11,9 +11,10 @@
       <TableItem title="id" prop="id" sort="auto"></TableItem>
       <TableItem title="名称" prop="name"></TableItem>
       <TableItem title="创建者" align="auto" prop="user"></TableItem>
-      <TableItem title="所属项目" align="auto" prop="project"></TableItem>
-      <TableItem title="创建时间" align="auto" prop="create_time"></TableItem>
-      <TableItem title="更新时间" align="auto" prop="update_time"></TableItem>
+      <TableItem title="所属项目" align="auto" prop="project" sort="auto"></TableItem>
+      <TableItem title="当前状态" align="auto" prop="status" sort="auto"></TableItem>
+      <TableItem title="创建时间" align="auto" prop="create_time" sort="auto"></TableItem>
+      <TableItem title="更新时间" align="auto" prop="update_time" sort="auto"></TableItem>
       <div slot="empty">暂无数据，赶快添加一个吧</div>
     </Table>
     <div class="space"></div>
