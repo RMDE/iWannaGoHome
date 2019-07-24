@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-from sqlalchemy import Column, Integer, Text, String
+from sqlalchemy import Column, Integer, Text, String, Enum
 
 from app.lib.orm import db
 from app.model.base import Base
+from app.model.project import Project
+from app.model.user import User
 
 
 class Mock(Base):
@@ -10,13 +12,15 @@ class Mock(Base):
     name = Column(Text)
     json = Column(Text)
     # 创建者
-    user_email = Column(String(32), db.ForeignKey('user.email'), nullable=False)
+    uid = Column(Integer, db.ForeignKey('user.id'), nullable=False)
     # 所属项目
-    project_name = Column(String(64), db.ForeignKey('project.name'))
+    pid = Column(Integer, db.ForeignKey('project.id'), nullable=False)
     # 图表的形式
     form = Column(String(32))
     # 描述
     desc = Column(Text)
+    # 状态
+    status = Column(Enum('abandoned', 'adopted', 'unresolved'), default='unresolved')
 
     @staticmethod
     def fetch_mock(mock_id):
@@ -31,20 +35,29 @@ class Mock(Base):
     @staticmethod
     def insert(form):
         mock_name = form['name']
-        mock_email = form['email']
+        # mock_uid = form['uid']
         mock_json = form['json']
-        mock_project = None
+        mock_uid = None
+        mock_pid = None
         mock_form = None
         mock_desc = None
-        if 'project' in form:
-            mock_project = form['project']
+        if 'uid' in form:
+            mock_pid = form['uid']
+        elif 'email' in form:
+            user = User.query.filter_by(email=form['email']).first()
+            mock_uid = user.id
+        if 'pid' in form:
+            mock_pid = form['pid']
+        elif 'project' in form:
+            project = Project.query.filter_by(name=form['project']).first()
+            mock_pid = project.id
         if 'form' in form:
             mock_form = form['form']
         if 'desc' in form:
             mock_desc = form['desc']
         try:
             with db.auto_commit():
-                mock = Mock(name=mock_name, user_email=mock_email, json=mock_json, project_name=mock_project,
+                mock = Mock(name=mock_name, uid=mock_uid, json=mock_json, pid=mock_pid,
                             form=mock_form,
                             desc=mock_desc)
                 db.session.add(mock)

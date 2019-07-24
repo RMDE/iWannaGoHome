@@ -18,6 +18,7 @@ def get_mock(id):
     mock_schema = MockSchema()
     data = mock_schema.dump(mock).data
     data['user'] = mock.user.email
+    data['project'] = mock.project.name
     return jsonify(data)
 
 
@@ -37,6 +38,7 @@ def get_all_mock():
     for mock in all:
         data = mock_schema.dump(mock).data
         data['user'] = mock.user.email
+        data['project'] = mock.project.name
         mock_dicts.append(data)
     return jsonify(mock_dicts)
 

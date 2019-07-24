@@ -26,12 +26,12 @@ class PromotePrivilegeForm(BaseForm):
 
 
 class CreateMockForm(BaseForm):
-    email = StringField(validators=[DataRequired(message='邮箱不能为空')])
+    # uid = IntegerField(validators=[DataRequired(message='邮箱不能为空')])
     name = StringField(validators=[DataRequired(message='名称不能为空')])
     json = StringField(validators=[DataRequired(message='Json文本不能为空')])
-    project = StringField(default=None)
-    form = StringField(default=None)
-    desc = StringField(default=None)
+    # pid = IntegerField(default=None)
+    # form = StringField(default=None)
+    # desc = StringField(default=None)
 
 
 class CreateProjectForm(BaseForm):
