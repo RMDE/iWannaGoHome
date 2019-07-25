@@ -4,7 +4,7 @@ import { setCookie, delCookie, getCookie } from '../../utils/cookie'
 const state = {
   email: null,
   token: null,
-  status: 0// 登录状态，用于登录时监视
+  status: 0// 监视状态
 }
 
 const mutations = {

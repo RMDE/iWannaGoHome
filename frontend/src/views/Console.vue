@@ -54,7 +54,7 @@
           },
           {
             title: '项目',
-            key: 'consoleProject',
+            key: 'consoleProjectTable',
             icon: 'iconfont icon-project'
           },
           {

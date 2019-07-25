@@ -32,7 +32,7 @@
     </vue-json-editor>
     <div class="post-editor-bottom">
       <ButtonGroup :circle="false" size="s">
-        <Button text-color="blue" icon="iconfont icon-draft">预览</Button>
+        <Button text-color="blue" icon="iconfont icon-draft">图表预览</Button>
         <Button color="blue" icon="iconfont icon-save">发 布</Button>
         <Button text-color="blue" icon="iconfont icon-hide">隐藏</Button>
       </ButtonGroup>
@@ -60,31 +60,34 @@
         projects: [],
         form: null,
         // 图标类型列表
-        forms: ['折线图',
-                '柱状图',
-                '条形图',
-                '饼图',
-                '环图',
-                '瀑布图',
-                '漏斗图',
-                '雷达图',
-                '地图',
-                '桑基图',
-                '热力图',
-                '散点图',
-                'K线图',
-                '仪表盘',
-                '树图',
-                '水球图',
-                '词云图']
+        forms: [
+          '折线图',
+          '柱状图',
+          '条形图',
+          '饼图',
+          '环图',
+          '瀑布图',
+          '漏斗图',
+          '雷达图',
+          '地图',
+          '桑基图',
+          '热力图',
+          '散点图',
+          'K线图',
+          '仪表盘',
+          '树图',
+          '水球图',
+          '词云图'
+        ]
       }
     },
     created () {
       this.mockId = this.$route.params.mockId
     },
     mounted () {
-      if (this.mockId !== null) {
+      if (this.mockId !== null && this.mockId !== undefined) {
         this.$Loading()
+        console.log(this.mockId)
         MockApi.fetchMock(this.mockId).then((res) => {
           // 解构赋值
           let jsonRaw

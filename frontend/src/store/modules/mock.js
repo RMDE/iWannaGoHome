@@ -2,7 +2,7 @@ import MockApi from '@api/mock'
 
 const state = {
   mocks: [],
-  mocksStatus: 0// 监视获取状态，用于登录时监视
+  mocksStatus: 0// 监视获取状态
 }
 
 const mutations = {
@@ -25,8 +25,8 @@ const actions = {
     commit('setMocksStatus', 0)
     MockApi.getMockList().then((res) => {
       if (res.status === 200) {
-        commit('setMocksStatus', 1)
         commit('setMocks', res.data)
+        commit('setMocksStatus', 1)
       }
     }).catch((e) => {
       if (e.response.status === 404) {
