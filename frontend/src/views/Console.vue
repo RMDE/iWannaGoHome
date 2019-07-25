@@ -59,7 +59,7 @@
           },
           {
             title: 'Mock',
-            key: 'consoleMock',
+            key: 'consoleMockTable',
             icon: 'iconfont icon-mock'
           },
           {
@@ -137,7 +137,7 @@
   }
 
   /deep/ .iconfont {
-    font-size:18px;
+    font-size: 16px;
   }
 
 </style>
