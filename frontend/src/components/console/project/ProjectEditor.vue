@@ -110,22 +110,21 @@
           desc: this.desc,
           markdown: this.markdown
         }
+
+        let result
+
         if (this.projectId !== null && this.projectId !== undefined) {
           // 更新
-          let result = this.updateProject({ id: this.projectId, project: project })
-          if (result) {
-            setTimeout(() => {
-              this.$router.back()
-            }, 1000)
-          }
+          result = this.updateProject({ id: this.projectId, project: project })
         } else {
           // 新增
-          let result = this.createProject(project)
-          if (result) {
-            setTimeout(() => {
-              this.$router.back()
-            }, 1000)
-          }
+          result = this.createProject(project)
+        }
+
+        if (result) {
+          setTimeout(() => {
+            this.$router.back()
+          }, 1000)
         }
       }
     }

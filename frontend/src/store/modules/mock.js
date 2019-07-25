@@ -1,4 +1,5 @@
 import MockApi from '@api/mock'
+import Vue from 'vue'
 
 const state = {
   mocks: [],
@@ -38,6 +39,42 @@ const actions = {
       }
       console.log(e)
     })
+  },
+  createMock ({ commit }, obj) {
+    let result
+    MockApi.createMock(obj).then(() => {
+      Vue.prototype.$Notice['success']('创建成功')
+      result = true
+    }).catch((e) => {
+      console.log(e)
+      Vue.prototype.$Notice['error']('创建失败')
+      result = false
+    })
+    return result
+  },
+  updateMock ({ commit }, obj) {
+    let result
+    MockApi.updateMock(obj.id, obj.mock).then(() => {
+      Vue.prototype.$Notice['success']('更新成功')
+      result = true
+    }).catch((e) => {
+      console.log(e)
+      Vue.prototype.$Notice['error']('更新失败')
+      result = false
+    })
+    return result
+  },
+  abandonMock ({ commit }, mockId) {
+    let result
+    MockApi.abandonMock(mockId).then(() => {
+      Vue.prototype.$Notice['success']('操作成功')
+      result = true
+    }).catch((e) => {
+      console.log(e)
+      Vue.prototype.$Notice['error']('操作失败')
+      result = false
+    })
+    return result
   }
 }
 

@@ -33,8 +33,8 @@
     <div class="post-editor-bottom">
       <ButtonGroup :circle="false" size="s">
         <Button text-color="blue" icon="iconfont icon-draft">图表预览</Button>
-        <Button color="blue" icon="iconfont icon-save">发 布</Button>
-        <Button text-color="blue" icon="iconfont icon-hide">隐藏</Button>
+        <Button color="blue" icon="iconfont icon-save" @click="submit">发 布</Button>
+        <Button text-color="blue" icon="iconfont icon-hide" @click="abandon">废弃</Button>
       </ButtonGroup>
     </div>
   </div>
@@ -43,6 +43,7 @@
 <script>
   import vueJsonEditor from 'vue-json-editor'
   import MockApi from '../../../api/mock'
+  import { mapActions } from 'vuex'
 
   export default {
     name: 'MockEditor',
@@ -87,7 +88,6 @@
     mounted () {
       if (this.mockId !== null && this.mockId !== undefined) {
         this.$Loading()
-        console.log(this.mockId)
         MockApi.fetchMock(this.mockId).then((res) => {
           // 解构赋值
           let jsonRaw
@@ -107,6 +107,11 @@
       }
     },
     methods: {
+      ...mapActions({
+        createMock: 'mock/createMock',
+        updateMock: 'mock/updateMock',
+        abandonMock: 'mock/abandonMock'
+      }),
       goBack () {
         this.$router.back()
       },
@@ -118,6 +123,42 @@
       },
       onError (value) {
         console.log('value:', value)
+      },
+      submit () {
+        let mock = {
+          name: this.name,
+          project: this.project,
+          json: JSON.stringify(this.json),
+          desc: this.desc,
+          form: this.form
+        }
+        console.log(mock)
+
+        let result
+
+        if (this.mockId !== null && this.mockId !== undefined) {
+          // 修改
+          result = this.updateMock({ id: this.mockId, mock: mock })
+        } else {
+          // 新增
+          result = this.createMock(mock)
+        }
+
+        if (result) {
+          setTimeout(() => {
+            this.$router.back()
+          }, 1000)
+        }
+      },
+      abandon () {
+        if (this.mockId !== undefined && this.mockId !== null) {
+          let result = this.abandonMock(this.mockId)
+          if (result) {
+            setTimeout(() => {
+              this.$router.back()
+            }, 1000)
+          }
+        }
       }
     }
   }
