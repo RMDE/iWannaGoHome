@@ -20,7 +20,9 @@ def get_mock(id):
     mock_schema = MockSchema()
     data = mock_schema.dump(mock).data
     data['user'] = mock.user.email
-    data['project'] = mock.project.name
+    # mock的project外键有可能是null
+    if mock.project:
+        data['project'] = mock.project.name
     # 所有项目
     projects = Project.fetch_all()
     project_list = []
@@ -48,7 +50,8 @@ def get_all_mock():
     for mock in all:
         data = mock_schema.dump(mock).data
         data['user'] = mock.user.email
-        data['project'] = mock.project.name
+        if mock.project:
+            data['project'] = mock.project.name
         mock_dicts.append(data)
     return jsonify(mock_dicts)
 
@@ -73,6 +76,18 @@ def create_mock():
 def update_mock(id):
     form = CreateMockForm().execute_validate()
     result = Mock.update_mock(id, form)
+    if result:
+        return Success()
+    else:
+        return DatabaseError()
+
+
+# 废弃一个mock
+@api.route('/<int:id>', methods=['PATCH'])
+@auth.login_required
+@Permission.require(Ring.Member)
+def abandon_mock(id):
+    result = Mock.abandon(id)
     if result:
         return Success()
     else:

@@ -14,7 +14,7 @@ class Mock(Base):
     # 创建者
     uid = Column(Integer, db.ForeignKey('user.id'), nullable=False)
     # 所属项目
-    pid = Column(Integer, db.ForeignKey('project.id'), nullable=False)
+    pid = Column(Integer, db.ForeignKey('project.id'), nullable=True)
     # 图表的形式
     form = Column(String(32))
     # 描述
@@ -49,6 +49,18 @@ class Mock(Base):
                 if 'project' in form:
                     project = Project.query.filter_by(name=form['project']).first()
                     mock.pid = project.id
+        except IndentationError as e:
+            print(e)
+            return False
+        return True
+
+    @staticmethod
+    def abandon(mock_id):
+        mock = Mock.query.filter_by(id=mock_id).first_or_404()
+        try:
+            with db.auto_commit():
+                mock.status = 'abandoned'
+                mock.pid = None
         except IndentationError as e:
             print(e)
             return False
