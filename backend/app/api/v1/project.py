@@ -18,7 +18,7 @@ api = Redprint('project')
 @Permission.require(Ring.Member)
 def create_project():
     form = CreateProjectForm().execute_validate()
-    result = Project.insert(form['name'], form['desc'])
+    result = Project.insert(form)
     if result:
         return Success()
     else:

@@ -12,6 +12,7 @@ class Project(Base):
     name = Column(String(64), nullable=True, unique=True)
     mocks = db.relationship('Mock', backref=db.backref('project', lazy="joined"), lazy='joined')
     desc = Column(Text)
+    markdown = Column(Text)
 
     # GET
     @staticmethod
@@ -25,16 +26,21 @@ class Project(Base):
         project = Project.query.filter_by(id=project_id).first_or_404()
         new_project_name = None
         new_project_desc = None
+        new_project_markdown = None
         if 'name' in form:
             new_project_name = form['name']
         if 'desc' in form:
             new_project_desc = form['desc']
+        if 'markdown' in form:
+            new_project_markdown = form['markdown']
         try:
             with db.auto_commit():
                 if new_project_name:
                     project.name = new_project_name
                 if new_project_desc:
                     project.desc = new_project_desc
+                if new_project_markdown:
+                    project.markdown = new_project_markdown
                 # 更新时间
                 project.update_time = datetime.now()
         except IndentationError as e:
@@ -44,10 +50,14 @@ class Project(Base):
 
     # CREATE
     @staticmethod
-    def insert(project_name, project_desc):
+    def insert(form):
         try:
             with db.auto_commit():
-                project = Project(name=project_name, desc=project_desc)
+                project = Project(name=form['name'])
+                if 'desc' in form:
+                    project.desc = form['desc']
+                if 'markdown' in form:
+                    project.markdown = form['markdown']
                 db.session.add(project)
         except IndentationError as e:
             print(e)
