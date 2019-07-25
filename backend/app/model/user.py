@@ -16,7 +16,7 @@ class User(Base):
     scope = Column(Enum(Ring), default=Ring.Guest)
 
     # 用户创建的mock，一对多数据关系
-    mocks = db.relationship('Mock', backref='user', lazy='dynamic')
+    mocks = db.relationship('Mock', backref='user', lazy='joined')
 
     @property
     def password(self):

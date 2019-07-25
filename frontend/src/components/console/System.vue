@@ -7,9 +7,9 @@
       </div>
     </ShadowCard>
     <ShadowCard>
-<!--      <h4 class="card-title">集群管理</h4>-->
-      <Button color="green"><i class="iconfont icon-start"></i><span>启动集群</span></Button>
-      <Button color="red"><i class="iconfont icon-stop"></i><span>停止集群</span></Button>
+      <!--      <h4 class="card-title">集群管理</h4>-->
+      <Button color="yellow" icon="iconfont icon-start">启动集群</Button>
+      <Button text-color="red" icon="iconfont icon-stop">停止集群</Button>
     </ShadowCard>
   </div>
 </template>
@@ -27,8 +27,4 @@
 
 <style scoped lang="less">
 
-  /deep/ .h-btn span {
-    /*font-size: 16px;*/
-    /*margin: 0 4px;*/
-  }
 </style>

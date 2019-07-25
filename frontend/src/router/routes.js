@@ -36,7 +36,28 @@ const routes = [
         path: 'mock',
         meta: { needLogin: true },
         name: 'consoleMock',
-        component: () => import(/* webpackChunkName: "console.mock" */'../components/console/Mock.vue')
+        component: () => import(/* webpackChunkName: "console.mock" */'../components/console/mock/MockManagement.vue'),
+        children: [
+          {
+            path: '',
+            meta: { needLogin: true },
+            name: 'consoleMockTable',
+            component: () => import(/* webpackChunkName: "console.user" */'../components/console/mock/MockTable.vue')
+          },
+          {
+            path: 'edit/:mockId',
+            meta: { needLogin: true },
+            name: 'consoleMockEditor',
+            props: true,
+            component: () => import(/* webpackChunkName: "console.user" */'../components/console/mock/MockEditor.vue')
+          },
+          {
+            path: 'edit/new',
+            name: 'consoleNewMock',
+            props: true,
+            component: () => import(/* webpackChunkName: "console.user" */'../components/console/mock/MockEditor.vue')
+          }
+        ]
       },
       {
         path: 'user',
