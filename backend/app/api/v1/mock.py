@@ -66,6 +66,19 @@ def create_mock():
         return DatabaseError()
 
 
+# 更新一个mock
+@api.route('/<int:id>', methods=['PUT'])
+@auth.login_required
+@Permission.require(Ring.Member)
+def update_mock(id):
+    form = CreateMockForm().execute_validate()
+    result = Mock.update_mock(id, form)
+    if result:
+        return Success()
+    else:
+        return DatabaseError()
+
+
 # 软删除mock
 @api.route('/<int:id>', methods=['DELETE'])
 @auth.login_required

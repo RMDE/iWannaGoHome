@@ -33,33 +33,50 @@ class Mock(Base):
         return mock.json
 
     @staticmethod
-    def insert(form):
-        mock_name = form['name']
-        # mock_uid = form['uid']
-        mock_json = form['json']
-        mock_uid = None
-        mock_pid = None
-        mock_form = None
-        mock_desc = None
-        if 'uid' in form:
-            mock_pid = form['uid']
-        elif 'email' in form:
-            user = User.query.filter_by(email=form['email']).first()
-            mock_uid = user.id
-        if 'pid' in form:
-            mock_pid = form['pid']
-        elif 'project' in form:
-            project = Project.query.filter_by(name=form['project']).first()
-            mock_pid = project.id
-        if 'form' in form:
-            mock_form = form['form']
-        if 'desc' in form:
-            mock_desc = form['desc']
+    def update_mock(mock_id, form):
+        mock = Mock.query.filter_by(id=mock_id).first_or_404()
         try:
             with db.auto_commit():
-                mock = Mock(name=mock_name, uid=mock_uid, json=mock_json, pid=mock_pid,
-                            form=mock_form,
-                            desc=mock_desc)
+                def replace(key):
+                    if key in form:
+                        setattr(mock, key, form[key])
+
+                to_replace = ['name', 'json', 'pid', 'form', 'desc']
+
+                for item in to_replace:
+                    replace(item)
+
+                if 'project' in form:
+                    project = Project.query.filter_by(name=form['project']).first()
+                    mock.pid = project.id
+        except IndentationError as e:
+            print(e)
+            return False
+        return True
+
+    @staticmethod
+    def insert(form):
+        try:
+            with db.auto_commit():
+                mock = Mock()
+
+                def to_set(key):
+                    if key in form:
+                        setattr(mock, key, form[key])
+
+                need_set = ['name', 'uid', 'pid', 'json', 'desc', 'form']
+
+                for item in need_set:
+                    to_set(item)
+
+                if 'email' in form:
+                    user = User.query.filter_by(email=form['email']).first()
+                    mock.uid = user.id
+
+                if 'project' in form:
+                    project = Project.query.filter_by(name=form['project']).first()
+                    mock.pid = project.id
+
                 db.session.add(mock)
 
         except IndentationError as e:
